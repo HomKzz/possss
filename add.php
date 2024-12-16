@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <!-- ปุ่มเปิด Modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
-            homkz
+            Add product
         </button>
 
         <!-- Modal -->
