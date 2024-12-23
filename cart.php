@@ -165,10 +165,12 @@ if (isset($_POST['search'])) {
                                         </li>
                                     </ul>
                                     <div id="total-price" class="text-center"></div>
-                                    <div class="row">
-                                        <div>Customer Name : <span id="customer-name"></span></div>
-                                        <form>
-                                            <select name="customer" id="customer">
+                                    <div class="row d-grid align-items-start gap-5  ">
+
+                                        <!-- Form with Select -->
+                                        <form class="mt-3">
+                                            <label for="customer" class="form-label fw-bold">ลูกค้า :</label>
+                                            <select name="customer" id="customer" class="form-select ml-2">
                                                 <?php
                                                 $sql = "SELECT * FROM customer";
                                                 $stmt = $conn->prepare($sql);
@@ -180,8 +182,8 @@ if (isset($_POST['search'])) {
                                                 ?>
                                             </select>
                                         </form>
-
                                     </div>
+
                                     <div class="d-flex justify-content-end mb-2">
                                         <button onclick="clearCart()" class="btn btn-danger btn-sm">
                                             <i class="fas fa-trash-alt"></i> Clear Cart
@@ -287,7 +289,7 @@ if (isset($_POST['search'])) {
                 cartContainer.innerHTML = '';
 
                 if (cart.length === 0) {
-                    cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+                    cartContainer.innerHTML = '<p class="text-center">Your cart is empty.</p>';
                 } else {
                     cart.forEach(item => {
                         cartContainer.innerHTML += `
