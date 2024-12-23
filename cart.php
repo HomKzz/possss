@@ -142,7 +142,7 @@ if (isset($_POST['search'])) {
                                                         </p>
                                                         <!-- ตัดข้อความยาว -->
                                                         <button class="btn btn-primary btn-sm w-100"
-                                                            onclick="addToCart(<?= $row['product_id'] ?>, '<?= addslashes($row['product_name']) ?>', <?= $row['product_price'] ?>, 'uploads/products/<?= $row['image'] ?>')">Add
+                                                            onclick="addToCart(<?= $row['product_id'] ?>, '<?= addslashes($row['product_name']) ?>', <?= $row['product_price'] ?>, 'uploads/products/<?= $row['image'] ?>' , <?= $row['product_stock'] ?>)">Add
                                                             to Cart</button>
                                                     </div>
                                                 </div>
@@ -266,16 +266,35 @@ if (isset($_POST['search'])) {
 
         <script>
             // ฟังก์ชันเพิ่มสินค้าใน Cart
-            function addToCart(id, name, price, image) {
+            function addToCart(id, name, price, image, stock) {
                 const cart = JSON.parse(localStorage.getItem('cart')) || [];
                 const existingItem = cart.find(item => item.id === id);
 
                 if (existingItem) {
+                    // ถ้ามีสินค้าตัวนี้ในตะกร้าแล้ว, เช็คว่าจำนวนสินค้าจะไม่เกินจำนวนสต็อก
+                    if (existingItem.quantity >= stock) {
+                        Swal.fire({
+                            title: "สินค้าหมด",
+                            icon: "error",
+                            draggable: true
+                        });
+                        return;
+                    }
                     existingItem.quantity += 1;
                 } else {
-                    cart.push({ id, name, price, quantity: 1, image }); // เพิ่ม image เข้าไปในข้อมูลสินค้า
+                    // ถ้ายังไม่มีสินค้าตัวนี้ในตะกร้า, เพิ่มสินค้าลงในตะกร้า
+                    if (1 > stock) {
+                        Swal.fire({
+                            title: "สินค้าหมด",
+                            icon: "error",
+                            draggable: true
+                        });
+                        return;
+                    }
+                    cart.push({ id, name, price, quantity: 1, image, stock });
                 }
 
+                // เก็บข้อมูลตะกร้ากลับลงใน localStorage
                 localStorage.setItem('cart', JSON.stringify(cart));
                 showprice();
                 displayCart();
@@ -424,7 +443,11 @@ if (isset($_POST['search'])) {
                 const customerId = document.getElementById('customer').value; // ดึงค่า Customer ID จาก input
 
                 if (cart.length === 0) {
-                    alert('ตะกร้าสินค้าว่าง');
+                    Swal.fire({
+                        title: "ตะกร้าว่าง!",
+                        icon: "warning",
+                        draggable: true
+                    });
                     return;
                 }
 

@@ -62,7 +62,7 @@ function renderSidebar($activePage)
                 aria-labelledby="headingComponents" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Topic :</h6>
-                    <a class="collapse-item" href="buttons.php">Manage products</a>
+                    <a class="collapse-item" href="add.php">Manage products</a>
                     <a class="collapse-item" href="cards.php">Stocks</a>
                 </div>
             </div>
